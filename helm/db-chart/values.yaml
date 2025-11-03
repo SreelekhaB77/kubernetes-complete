@@ -1,0 +1,9 @@
+image:
+  repository: mysql
+  tag: 8.0
+env:
+  MYSQL_ROOT_PASSWORD: password
+  MYSQL_DATABASE: app_db
+service:
+  type: ClusterIP
+  port: 3306
