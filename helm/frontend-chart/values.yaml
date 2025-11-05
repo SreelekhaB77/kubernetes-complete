@@ -1,0 +1,16 @@
+image:
+  repository: 379196425754.dkr.ecr.us-east-1.amazonaws.com/react-frontend
+  tag: latest
+  pullPolicy: Always
+
+service:
+  type: LoadBalancer
+  port: 80
+  targetPort: 80  # frontend container port
+
+containerPort: 80  # 🔥 Required to fix your error
+
+ingress:
+  enabled: true
+  host: three-tier.local
+

@@ -1,0 +1,44 @@
+name: CD
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1  # ✅ matches your EKS region
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build & Push Frontend
+        run: |
+          cd app/frontend
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/react-frontend:latest .
+          docker push ${{ steps.login-ecr.outputs.registry }}/react-frontend:latest
+
+      - name: Build & Push Backend
+        run: |
+          cd app/Backend
+          docker build -t ${{ steps.login-ecr.outputs.registry }}/flask-backend:latest .
+          docker push ${{ steps.login-ecr.outputs.registry }}/flask-backend:latest
+
+      - name: Update Kubernetes via Helm
+        run: |
+          aws eks update-kubeconfig --region us-east-1 --name k8s_with_terraform
+          helm upgrade --install frontend ./helm/frontend-chart
+          helm upgrade --install backend ./helm/backend-chart
+          helm upgrade --install db ./helm/db-chart
+

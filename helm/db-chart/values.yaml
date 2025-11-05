@@ -1,9 +1,15 @@
 image:
   repository: mysql
-  tag: 8.0
-env:
-  MYSQL_ROOT_PASSWORD: password
-  MYSQL_DATABASE: app_db
+  tag: "8.0"
+  pullPolicy: IfNotPresent
+
+mysql:
+  rootPassword: root
+  database: app_db
+  user: root
+  password: root
+
 service:
   type: ClusterIP
   port: 3306
+

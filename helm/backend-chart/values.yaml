@@ -1,11 +1,15 @@
 image:
-  repository: <AWS_ACCOUNT_ID>.dkr.ecr.ap-south-1.amazonaws.com/flask-backend
+  repository: 379196425754.dkr.ecr.us-east-1.amazonaws.com/flask-backend
   tag: latest
+  pullPolicy: Always
+
 service:
   type: ClusterIP
   port: 5000
+
 env:
-  DB_HOST: mysql-service
+  DB_HOST: db
   DB_USER: root
-  DB_PASSWORD: password
+  DB_PASSWORD: root
   DB_NAME: app_db
+
