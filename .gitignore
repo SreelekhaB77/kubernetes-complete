@@ -12,3 +12,5 @@ override.tf.json
 # Binaries
 kubectl
 
+.terraform/
+kubectl
