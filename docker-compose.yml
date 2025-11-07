@@ -1,3 +1,5 @@
+version: "3.9"
+
 services:
   backend:
     build: ./app/Backend
@@ -16,7 +18,9 @@ services:
       - app-network
 
   frontend:
-    build: ./app/frontend
+    build:
+      context: ./app/frontend
+      dockerfile: Dockerfile
     image: 379196425754.dkr.ecr.us-east-1.amazonaws.com/react-frontend:latest
     container_name: web-frontend
     ports:
@@ -27,6 +31,8 @@ services:
       - backend
     networks:
       - app-network
+    volumes:
+      - ./app/frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro  # ✅ mount nginx.conf
 
   db:
     image: mysql:8.0
@@ -45,7 +51,6 @@ services:
     networks:
       - app-network
 
-# ✅ Define networks and volumes
 networks:
   app-network:
     driver: bridge

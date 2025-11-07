@@ -4,8 +4,7 @@ function App() {
   const [message, setMessage] = useState("Loading...");
 
   useEffect(() => {
-    // Replace this with your actual backend service name in Kubernetes
-    fetch("/api/hello")
+    fetch("/")
       .then((res) => res.text())
       .then((data) => setMessage(data))
       .catch(() => setMessage("Unable to connect to backend"));
@@ -21,20 +20,9 @@ function App() {
 }
 
 const styles = {
-  container: {
-    textAlign: "center",
-    padding: "50px",
-    fontFamily: "Arial, sans-serif",
-  },
-  header: {
-    fontSize: "2em",
-    color: "#333",
-  },
-  text: {
-    fontSize: "1.2em",
-    color: "#555",
-  },
+  container: { textAlign: "center", padding: "50px", fontFamily: "Arial, sans-serif" },
+  header: { fontSize: "2em", color: "#333" },
+  text: { fontSize: "1.2em", color: "#555" },
 };
 
 export default App;
-
